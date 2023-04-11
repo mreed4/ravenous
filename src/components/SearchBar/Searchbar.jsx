@@ -1,18 +1,9 @@
 import "./SearchBar.css";
-
-const sortByOptions = {
-  "Best Match": "best_match",
-  "Highest Rated": "rating",
-  "Most Reviewed": "review_count",
-};
+import { useContext } from "react";
+import { AppContext } from "../AppContext";
 
 export default function SearchBar() {
-  function renderSortByOptions() {
-    return Object.keys(sortByOptions).map((sortByOption) => {
-      let sortByOptionValue = sortByOptions[sortByOption];
-      return <li key={sortByOptionValue}>{sortByOption}</li>;
-    });
-  }
+  const { term, location, handleTermChange, handleLocationChange, renderSortByOptions } = useContext(AppContext);
 
   return (
     <div className="SearchBar">
@@ -20,8 +11,8 @@ export default function SearchBar() {
         <ul>{renderSortByOptions()}</ul>
       </div>
       <div className="SearchBar-fields">
-        <input placeholder="Search Businesses" />
-        <input placeholder="Where?" />
+        <input value={term} onChange={handleTermChange} placeholder="Search Businesses" />
+        <input value={location} onChange={handleLocationChange} placeholder="Where?" />
       </div>
       <div className="SearchBar-submit">
         <a>Let's Go</a>
