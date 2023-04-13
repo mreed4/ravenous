@@ -13,17 +13,6 @@ function AppProvider({ children }) {
     "Most Reviewed": "review_count",
   };
 
-  function renderSortByOptions() {
-    return Object.keys(sortByOptions).map((sortByOption) => {
-      let sortByOptionValue = sortByOptions[sortByOption];
-      return (
-        <li key={sortByOptionValue} className={getSortByClass(sortByOptionValue)} onClick={handleSortByChange(sortByOptionValue)}>
-          {sortByOption}
-        </li>
-      );
-    });
-  }
-
   function getSortByClass(sortByOption) {
     if (sortBy === sortByOption) {
       return "active";
@@ -63,7 +52,7 @@ function AppProvider({ children }) {
     location,
     sortBy,
     sortByOptions,
-    renderSortByOptions,
+    // renderSortByOptions,
     getSortByClass,
     handleSortByChange,
     handleTermChange,

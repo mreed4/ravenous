@@ -3,12 +3,25 @@ import { useContext } from "react";
 import { AppContext } from "../AppContext";
 
 export default function SearchBar() {
-  const { term, location, handleTermChange, handleLocationChange, renderSortByOptions } = useContext(AppContext);
+  const { term, location, sortByOptions, getSortByClass, handleSortByChange, handleTermChange, handleLocationChange } =
+    useContext(AppContext);
 
   return (
     <div className="SearchBar">
       <div className="SearchBar-sort-options">
-        <ul>{renderSortByOptions()}</ul>
+        <ul>
+          {Object.keys(sortByOptions).map((sortByOption) => {
+            let sortByOptionValue = sortByOptions[sortByOption];
+            return (
+              <li
+                key={sortByOptionValue}
+                className={getSortByClass(sortByOptionValue)}
+                onClick={() => handleSortByChange(sortByOptionValue)}>
+                {sortByOption}
+              </li>
+            );
+          })}
+        </ul>
       </div>
       <div className="SearchBar-fields">
         <input value={term} onChange={handleTermChange} placeholder="Search Businesses" />
