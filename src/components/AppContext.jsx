@@ -1,4 +1,5 @@
 import { createContext, useState } from "react";
+import { Yelp } from "../util/Yelp";
 
 const AppContext = createContext();
 
@@ -52,6 +53,7 @@ function AppProvider({ children }) {
 
   function searchYelp(term, location, sortBy) {
     console.log(`Searching Yelp with ${term}, ${location}, ${sortBy}`);
+    Yelp.search(term, location, sortBy);
   }
 
   const business = {
