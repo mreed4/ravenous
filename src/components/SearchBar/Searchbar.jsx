@@ -3,24 +3,27 @@ import { useContext } from "react";
 import { AppContext } from "../AppContext";
 
 export default function SearchBar() {
-  const { term, location, sortByOptions, getSortByClass, handleSortByChange, handleTermChange, handleLocationChange } =
+  const { term, location, sortByOptions, getSortByClass, handleSortByChange, handleTermChange, handleLocationChange, handleSearch } =
     useContext(AppContext);
 
   return (
     <div className="SearchBar">
       <div className="SearchBar-sort-options">
         <ul>
-          {Object.keys(sortByOptions).map((sortByOption) => {
-            let sortByOptionValue = sortByOptions[sortByOption];
-            return (
-              <li
-                key={sortByOptionValue}
-                className={getSortByClass(sortByOptionValue)}
-                onClick={() => handleSortByChange(sortByOptionValue)}>
-                {sortByOption}
-              </li>
-            );
-          })}
+          {
+            /* Previously this was a call to a function from context */
+            Object.keys(sortByOptions).map((sortByOption) => {
+              let sortByOptionValue = sortByOptions[sortByOption];
+              return (
+                <li
+                  key={sortByOptionValue}
+                  className={getSortByClass(sortByOptionValue)}
+                  onClick={() => handleSortByChange(sortByOptionValue)}>
+                  {sortByOption}
+                </li>
+              );
+            })
+          }
         </ul>
       </div>
       <div className="SearchBar-fields">
@@ -28,7 +31,7 @@ export default function SearchBar() {
         <input value={location} onChange={handleLocationChange} placeholder="Where?" />
       </div>
       <div className="SearchBar-submit">
-        <a>Let's Go</a>
+        <a onClick={handleSearch}>Let's Go</a>
       </div>
     </div>
   );

@@ -21,6 +21,18 @@ function AppProvider({ children }) {
     }
   }
 
+  function renderSortByOptions() {
+    // ** When used as context, this function causes an error **
+    return Object.keys(sortByOptions).map((sortByOption) => {
+      let sortByOptionValue = sortByOptions[sortByOption];
+      return (
+        <li key={sortByOptionValue} className={getSortByClass(sortByOptionValue)} onClick={handleSortByChange(sortByOptionValue)}>
+          {sortByOption}
+        </li>
+      );
+    });
+  }
+
   function handleSortByChange(sortByOption) {
     setSortBy(sortByOption);
   }
@@ -31,6 +43,15 @@ function AppProvider({ children }) {
 
   function handleLocationChange(event) {
     setLocation(event.target.value);
+  }
+
+  function handleSearch(event) {
+    searchYelp(term, location, sortBy);
+    event.preventDefault();
+  }
+
+  function searchYelp(term, location, sortBy) {
+    console.log(`Searching Yelp with ${term}, ${location}, ${sortBy}`);
   }
 
   const business = {
@@ -52,11 +73,13 @@ function AppProvider({ children }) {
     location,
     sortBy,
     sortByOptions,
-    // renderSortByOptions,
+    // renderSortByOptions, ** This function causes an error. **
     getSortByClass,
     handleSortByChange,
     handleTermChange,
     handleLocationChange,
+    handleSearch,
+    searchYelp,
     business,
     businesses,
   };
