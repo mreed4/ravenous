@@ -9,6 +9,7 @@ function AppProvider({ children }) {
   const [location, setLocation] = useState("");
   const [sortBy, setSortBy] = useState("best_match");
   const [businesses, setBusinesses] = useState([]);
+  const [searchParams, setSearchParams] = useState("");
 
   const sortByOptions = {
     "Best Match": "best_match",
@@ -63,6 +64,9 @@ function AppProvider({ children }) {
       .then((data) => {
         console.log(data.businesses);
         setBusinesses(data.businesses);
+        setSearchParams(`"${searchTerm}" in ${searchLocation}`);
+        setLocation("");
+        setTerm("");
       });
   }
 
@@ -70,6 +74,7 @@ function AppProvider({ children }) {
     term,
     location,
     businesses,
+    searchParams,
     sortByOptions,
     getSortByClass,
     handleSortByChange,
