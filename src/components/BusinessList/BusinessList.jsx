@@ -5,15 +5,22 @@ import { AppContext } from "../AppContext";
 import Business from "../Business/Business";
 
 export default function BusinessList() {
-  const { businesses } = useContext(AppContext);
+  const { businesses, searchParams } = useContext(AppContext);
 
   return businesses.length >= 1 ? (
-    <div className="BusinessList">
-      {businesses.map((business) => {
-        return <Business key={business.alias} business={business} />;
-      })}
+    <div>
+      <p className="search-parameters">{searchParams}</p>
+      <ol className="BusinessList">
+        {businesses.map((business) => {
+          return (
+            <li key={business.alias}>
+              <Business business={business} />
+            </li>
+          );
+        })}
+      </ol>
     </div>
   ) : (
-    <div className="BusinessList">First you need to find a business</div>
+    <div className="search-parameters">Search for something!</div>
   );
 }
