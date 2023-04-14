@@ -9,8 +9,8 @@ export default function BusinessList() {
 
   return (
     <div className="BusinessList">
-      {businesses.map((business, i) => {
-        return <Business key={i} business={business} />;
+      {businesses.map((business) => {
+        return <Business key={business.alias} business={business} />;
       })}
     </div>
   );
