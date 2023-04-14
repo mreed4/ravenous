@@ -1,5 +1,6 @@
 import { createContext, useState } from "react";
-import { Yelp } from "../util/Yelp";
+import { config } from "../util/config.js";
+const { API_KEY } = config;
 
 const AppContext = createContext();
 
@@ -7,6 +8,7 @@ function AppProvider({ children }) {
   const [term, setTerm] = useState("");
   const [location, setLocation] = useState("");
   const [sortBy, setSortBy] = useState("best_match");
+  const [businesses, setBusinesses] = useState([]);
 
   const sortByOptions = {
     "Best Match": "best_match",
@@ -47,43 +49,33 @@ function AppProvider({ children }) {
   }
 
   function handleSearch(event) {
-    searchYelp(term, location, sortBy);
     event.preventDefault();
+    searchYelp(term, location, sortBy);
   }
 
-  function searchYelp(term, location, sortBy) {
-    console.log(`Searching Yelp with ${term}, ${location}, ${sortBy}`);
-    Yelp.search(term, location, sortBy);
+  function searchYelp(searchTerm, searchLocation, searchSortBy) {
+    console.log(`Searching Yelp with ${searchTerm}, ${searchLocation}, ${searchSortBy}`);
+    fetch(
+      `https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=${searchTerm}&location=${searchLocation}&sort_by=${searchSortBy}`,
+      { headers: { Authorization: `Bearer ${API_KEY}` } }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data.businesses);
+        setBusinesses(data.businesses);
+      });
   }
-
-  const business = {
-    imageSrc: "https://content.codecademy.com/programs/react/ravenous/pizza.jpg",
-    name: "MarginOtto Pizzeria",
-    address: "1010 Paddington Way",
-    city: "Flavortown",
-    state: "NY",
-    zipCode: "10101",
-    category: "Italian",
-    rating: 4.5,
-    reviewCount: 90,
-  };
-
-  const businesses = [business, business, business, business, business, business];
 
   const value = {
     term,
     location,
-    sortBy,
+    businesses,
     sortByOptions,
-    // renderSortByOptions, ** This function causes an error. **
     getSortByClass,
     handleSortByChange,
     handleTermChange,
     handleLocationChange,
     handleSearch,
-    searchYelp,
-    business,
-    businesses,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
