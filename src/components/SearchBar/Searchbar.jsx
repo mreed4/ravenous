@@ -28,11 +28,11 @@ export default function SearchBar() {
           </ul>
         </div>
         <div className="SearchBar-fields">
-          <input value={term} onChange={handleTermChange} placeholder="Search Businesses" />
-          <input value={location} onChange={handleLocationChange} placeholder="Where?" />
+          <input type="text" value={term} onChange={handleTermChange} placeholder="Search Businesses" />
+          <input type="text" value={location} onChange={handleLocationChange} placeholder="Where?" />
         </div>
         <div className="SearchBar-submit">
-          <button type="submit" onClick={handleSearch}>
+          <button type="submit" onClick={handleSearch} disabled={!term || !location}>
             Let's Go
           </button>
         </div>
