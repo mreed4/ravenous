@@ -4,3 +4,9 @@
   flex-wrap: wrap;
   margin: 4.4rem 10%;
 }
+
+.search-parameters {
+  margin: 2rem auto;
+  font-size: 2em;
+  text-align: center;
+}
