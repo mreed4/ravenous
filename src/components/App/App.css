@@ -34,7 +34,7 @@ input:focus {
   font-family: "Work Sans", sans-serif;
 }
 
-h1 {
+h1.site-name {
   padding: 0.66rem 0;
   text-align: center;
   background-color: #cca353;
