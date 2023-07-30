@@ -3,18 +3,18 @@ import { useContext } from "react";
 import { AppContext } from "../AppContext";
 
 export default function SearchBar() {
-  const { term, location, sortByOptions, getSortByClass, handleSortByChange, handleTermChange, handleLocationChange, handleSearch } =
-    useContext(AppContext);
+  const { appState, handleSearch, handleSortByChange, handleTermChange, handleLocationChange, getSortByClass } = useContext(AppContext);
+
+  const { searchTerm, searchLocation, searchSortBy } = appState;
 
   return (
     <div className="SearchBar">
       <form onSubmit={handleSearch}>
-        <div className="SearchBar-sort-options">
+        {/* <div className="SearchBar-sort-options">
           <ul>
             {
-              /* Previously this was a call to a function from context */
-              Object.keys(sortByOptions).map((sortByOption) => {
-                let sortByOptionValue = sortByOptions[sortByOption];
+              Object.keys(searchSortBy).map((sortByOption) => {
+                let sortByOptionValue = searchSortBy[sortByOption];
                 return (
                   <li
                     key={sortByOptionValue}
@@ -26,13 +26,13 @@ export default function SearchBar() {
               })
             }
           </ul>
-        </div>
+        </div> */}
         <div className="SearchBar-fields">
-          <input type="text" value={term} onChange={handleTermChange} placeholder="Search Businesses" />
-          <input type="text" value={location} onChange={handleLocationChange} placeholder="Where?" />
+          <input type="text" value={searchTerm} onChange={handleTermChange} placeholder="Search Businesses" />
+          <input type="text" value={searchLocation} onChange={handleLocationChange} placeholder="Where?" />
         </div>
         <div className="SearchBar-submit">
-          <button type="submit" onClick={handleSearch} disabled={!term || !location}>
+          <button type="submit" onClick={handleSearch} disabled={!searchTerm || !searchLocation}>
             Let's Go
           </button>
         </div>

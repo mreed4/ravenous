@@ -1,15 +1,17 @@
 import { createContext, useState } from "react";
-import { config } from "../util/config.js";
-const { API_KEY } = config;
 
 const AppContext = createContext();
 
+const netlify = "/.netlify/functions";
+
 function AppProvider({ children }) {
-  const [term, setTerm] = useState("");
-  const [location, setLocation] = useState("");
-  const [sortBy, setSortBy] = useState("best_match");
-  const [businesses, setBusinesses] = useState([]);
-  const [searchParams, setSearchParams] = useState("");
+  const [appState, setAppState] = useState({
+    searchTerm: "",
+    searchLocation: "",
+    searchSortBy: "best_match",
+    businesses: [],
+    searchParams: "",
+  });
 
   const sortByOptions = {
     "Best Match": "best_match",
@@ -18,63 +20,57 @@ function AppProvider({ children }) {
   };
 
   function getSortByClass(sortByOption) {
-    if (sortBy === sortByOption) {
+    const { searchSortBy } = appState;
+    if (searchSortBy === sortByOption) {
       return "active";
     } else {
-      return "";
+      return null;
     }
   }
 
-  function renderSortByOptions() {
-    // ** When used as context, this function causes an error **
-    return Object.keys(sortByOptions).map((sortByOption) => {
-      let sortByOptionValue = sortByOptions[sortByOption];
-      return (
-        <li key={sortByOptionValue} className={getSortByClass(sortByOptionValue)} onClick={handleSortByChange(sortByOptionValue)}>
-          {sortByOption}
-        </li>
-      );
-    });
-  }
-
-  function handleSortByChange(sortByOption) {
-    setSortBy(sortByOption);
-  }
+  function handleSortByChange(sortByOption) {}
 
   function handleTermChange(event) {
-    setTerm(event.target.value);
+    setAppState({ ...appState, searchTerm: event.target.value });
   }
 
   function handleLocationChange(event) {
-    setLocation(event.target.value);
+    const {
+      target: { value: location },
+    } = event;
+    setAppState({ ...appState, searchLocation: location });
   }
 
   function handleSearch(event) {
     event.preventDefault();
-    searchYelp(term, location, sortBy);
+    searchYelp();
+
+    const { searchTerm, searchLocation } = appState;
+
+    setAppState({
+      ...appState,
+      searchParams: `Searching for ${searchTerm} in ${searchLocation}`,
+    });
   }
 
-  function searchYelp(searchTerm, searchLocation, searchSortBy) {
-    console.log(`Searching Yelp with ${searchTerm}, ${searchLocation}, ${searchSortBy}`);
-    fetch(
-      `https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=${searchTerm}&location=${searchLocation}&sort_by=${searchSortBy}`,
-      { headers: { Authorization: `Bearer ${API_KEY}` } }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data.businesses);
-        setBusinesses(data.businesses);
-        setSearchParams(`"${searchTerm}" in ${searchLocation}`);
-        setLocation("");
-        setTerm("");
-      });
+  async function searchYelp() {
+    const { searchTerm, searchLocation, searchSortBy } = appState;
+
+    if (!searchTerm || !searchLocation) {
+      return;
+    }
+
+    const URL = `${netlify}/search?term=${searchTerm}&location=${searchLocation}`;
+
+    const response = await fetch(URL);
+    const data = await response.json();
+
+    console.log(data);
   }
 
   const value = {
-    term,
-    location,
-    businesses,
-    searchParams,
+    appState,
+    setAppState,
     sortByOptions,
     getSortByClass,
     handleSortByChange,

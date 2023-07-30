@@ -5,7 +5,9 @@ import { AppContext } from "../AppContext";
 import Business from "../Business/Business";
 
 export default function BusinessList() {
-  const { businesses, searchParams } = useContext(AppContext);
+  const { appState } = useContext(AppContext);
+
+  const { businesses, searchParams } = appState;
 
   return businesses.length >= 1 ? (
     <div>
