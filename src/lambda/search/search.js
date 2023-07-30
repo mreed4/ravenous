@@ -1,13 +1,8 @@
-// const sdk = require("api")("@yelp-developers/v1.0#259liblkmeph7e");
-
 async function handler(event) {
-  const { query: searchTerm, location } = event.queryStringParameters;
+  const { term: searchTerm, location, sort_by: searchSortBy } = event.queryStringParameters;
   const API_KEY = process.env.API_KEY;
 
-  // const auth = await sdk.auth(`Bearer ${API_KEY}`)
-  // const response = await sdk.v3_businesses_search({location: location, term: searchTerm})
-
-  const endpoint = `https://api.yelp.com/v3/businesses/search?term=${searchTerm}&location=${location}`;
+  const endpoint = `https://api.yelp.com/v3/businesses/search?term=${searchTerm}&location=${location}&sort_by=${searchSortBy}`;
   const options = {
     headers: {
       accept: "application/json",

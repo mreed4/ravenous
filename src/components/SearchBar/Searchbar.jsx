@@ -3,30 +3,39 @@ import { useContext } from "react";
 import { AppContext } from "../AppContext";
 
 export default function SearchBar() {
-  const { appState, handleSearch, handleSortByChange, handleTermChange, handleLocationChange, getSortByClass } = useContext(AppContext);
+  const { appState, handleSearch, handleSortByChange, handleTermChange, handleLocationChange } = useContext(AppContext);
 
   const { searchTerm, searchLocation, searchSortBy } = appState;
+
+  const sortByOptions = {
+    "Best Match": "best_match",
+    "Highest Rated": "rating",
+    "Most Reviewed": "review_count",
+  };
+
+  function getSortByClass(sortByOption) {
+    if (searchSortBy === sortByOption) {
+      return "active";
+    } else {
+      return null;
+    }
+  }
 
   return (
     <div className="SearchBar">
       <form onSubmit={handleSearch}>
-        {/* <div className="SearchBar-sort-options">
+        <div className="SearchBar-sort-options">
           <ul>
-            {
-              Object.keys(searchSortBy).map((sortByOption) => {
-                let sortByOptionValue = searchSortBy[sortByOption];
-                return (
-                  <li
-                    key={sortByOptionValue}
-                    className={getSortByClass(sortByOptionValue)}
-                    onClick={() => handleSortByChange(sortByOptionValue)}>
-                    {sortByOption}
-                  </li>
-                );
-              })
-            }
+            {Object.keys(sortByOptions).map((sortByOption) => {
+              let sortByOptionValue = sortByOptions[sortByOption];
+              return (
+                <li key={sortByOption} className={getSortByClass(sortByOptionValue)} onClick={() => handleSortByChange(sortByOptionValue)}>
+                  {sortByOption}
+                </li>
+              );
+            })}
           </ul>
-        </div> */}
+        </div>
         <div className="SearchBar-fields">
           <input type="text" value={searchTerm} onChange={handleTermChange} placeholder="Search Businesses" />
           <input type="text" value={searchLocation} onChange={handleLocationChange} placeholder="Where?" />

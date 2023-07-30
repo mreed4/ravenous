@@ -13,25 +13,19 @@ function AppProvider({ children }) {
     searchParams: "",
   });
 
-  const sortByOptions = {
-    "Best Match": "best_match",
-    "Highest Rated": "rating",
-    "Most Reviewed": "review_count",
-  };
+  const { searchTerm, searchLocation, searchSortBy } = appState;
 
-  function getSortByClass(sortByOption) {
-    const { searchSortBy } = appState;
-    if (searchSortBy === sortByOption) {
-      return "active";
-    } else {
-      return null;
-    }
+  function handleSortByChange(sortByOption) {
+    setAppState((prev) => ({ ...prev, searchSortBy: sortByOption }));
+
+    searchYelp();
   }
 
-  function handleSortByChange(sortByOption) {}
-
   function handleTermChange(event) {
-    setAppState({ ...appState, searchTerm: event.target.value });
+    const {
+      target: { value: term },
+    } = event;
+    setAppState((prev) => ({ ...prev, searchTerm: term }));
   }
 
   function handleLocationChange(event) {
@@ -45,34 +39,31 @@ function AppProvider({ children }) {
     event.preventDefault();
     searchYelp();
 
-    const { searchTerm, searchLocation } = appState;
-
-    setAppState({
-      ...appState,
+    setAppState((prev) => ({
+      ...prev,
       searchParams: `Searching for ${searchTerm} in ${searchLocation}`,
-    });
+      // searchTerm: "",
+      // searchLocation: "",
+    }));
   }
 
   async function searchYelp() {
-    const { searchTerm, searchLocation, searchSortBy } = appState;
-
     if (!searchTerm || !searchLocation) {
       return;
     }
 
-    const URL = `${netlify}/search?term=${searchTerm}&location=${searchLocation}`;
+    const URL = `${netlify}/search?term=${searchTerm}&location=${searchLocation}&sort_by=${searchSortBy}`;
 
     const response = await fetch(URL);
     const data = await response.json();
+    const { businesses } = data;
 
-    console.log(data);
+    setAppState((prev) => ({ ...prev, businesses }));
   }
 
   const value = {
     appState,
     setAppState,
-    sortByOptions,
-    getSortByClass,
     handleSortByChange,
     handleTermChange,
     handleLocationChange,
