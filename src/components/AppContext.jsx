@@ -48,9 +48,7 @@ function AppProvider({ children }) {
   }
 
   async function searchYelp() {
-    if (!searchTerm || !searchLocation) {
-      return;
-    }
+    if (!searchTerm || !searchLocation) return;
 
     const URL = `${netlify}/search?term=${searchTerm}&location=${searchLocation}&sort_by=${searchSortBy}`;
 

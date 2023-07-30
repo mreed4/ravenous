@@ -9,9 +9,7 @@ export default function BusinessList() {
 
   const { businesses, searchParams } = appState;
 
-  useEffect(() => {
-    console.log("BusinessList useEffect");
-  }, [businesses]);
+  useEffect(() => {}, [businesses]);
 
   return businesses.length >= 1 ? (
     <div>

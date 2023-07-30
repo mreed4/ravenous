@@ -13,13 +13,7 @@ export default function SearchBar() {
     "Most Reviewed": "review_count",
   };
 
-  function getSortByClass(sortByOption) {
-    if (searchSortBy === sortByOption) {
-      return "active";
-    } else {
-      return null;
-    }
-  }
+  const getSortByClass = (sortByOption) => (searchSortBy === sortByOption ? "active" : null);
 
   return (
     <div className="SearchBar">
