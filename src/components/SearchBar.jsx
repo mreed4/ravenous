@@ -1,6 +1,7 @@
-import "./SearchBar.css";
 import { useContext } from "react";
-import { AppContext } from "../AppContext";
+import { AppContext } from "./AppContext";
+
+import "../assets/css/SearchBar.css";
 
 export default function SearchBar() {
   const { appState, handleSearch, handleSortByChange, handleTermChange, handleLocationChange } = useContext(AppContext);

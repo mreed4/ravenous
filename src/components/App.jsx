@@ -1,7 +1,9 @@
-import { AppProvider } from "../AppContext";
-import "./App.css";
-import BusinessList from "../BusinessList/BusinessList";
-import SearchBar from "../SearchBar/SearchBar";
+import { AppProvider } from "./AppContext";
+
+import "../assets/css/App.css";
+
+import BusinessList from "./BusinessList";
+import SearchBar from "./SearchBar";
 
 function App() {
   return (

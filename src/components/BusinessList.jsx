@@ -1,8 +1,9 @@
-import "./BusinessList.css";
 import { useContext, useEffect } from "react";
-import { AppContext } from "../AppContext";
+import { AppContext } from "./AppContext";
 
-import Business from "../Business/Business";
+import "../assets/css/BusinessList.css";
+
+import Business from "./Business";
 
 export default function BusinessList() {
   const { appState } = useContext(AppContext);

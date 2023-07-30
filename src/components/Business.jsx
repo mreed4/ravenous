@@ -1,12 +1,15 @@
-import "./Business.css";
+import "../assets/css/Business.css";
 
 export default function Business({ business }) {
+  const { alias, image_url, name, url, categories, location, review_count, rating } = business;
+  const { address1, city, state, zip_code } = location;
+
   return (
     <div className="Business">
-      <img src={business.image_url} alt={business.name} />
+      <img src={image_url} alt={name} />
       <h2>
-        <a href={business.url} target="_blank">
-          {business.name}
+        <a href={url} target="_blank">
+          {name}
         </a>
       </h2>
       {/* <ul className="Business-categories">
@@ -16,15 +19,15 @@ export default function Business({ business }) {
       </ul> */}
       <div className="Business-information">
         <div className="Business-address">
-          <span>{business.location.address1}</span>
-          <span>{business.location.city}</span>
+          <span>{address1}</span>
+          <span>{city}</span>
           <span>
-            {business.location.state} {business.location.zip_code}
+            {state} {zip_code}
           </span>
         </div>
         <div className="Business-reviews">
-          <span className="rating">{business.rating} stars</span>
-          <span>{business.review_count} reviews</span>
+          <span className="rating">{rating} stars</span>
+          <span>{review_count} reviews</span>
         </div>
       </div>
     </div>
