@@ -5,7 +5,7 @@ async function handler(event) {
   const endpoint = `https://api.yelp.com/v3/businesses/search?term=${searchTerm}&location=${location}&sort_by=${searchSortBy}`;
   const options = {
     headers: {
-      accept: "application/json",
+      // accept: "application/json",
       Authorization: `Bearer ${API_KEY}`,
     },
   };
